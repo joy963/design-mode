@@ -27,4 +27,20 @@ public class FutureServiceImpl<T> implements FutureService<T> {
         }).start();
         return futureTask;
     }
+
+    @Override
+    public Future<T> submit(Callable<T> runnable, Callback<T> callback) {
+        final FutureTask<T> futureTask = new FutureTask<>();
+        new Thread(() -> {
+            T result = null;
+            try {
+                result = runnable.call();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            futureTask.finish(result);
+            callback.run(result);
+        }).start();
+        return futureTask;
+    }
 }

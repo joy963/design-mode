@@ -16,4 +16,5 @@ public interface FutureService<T> {
 
     Future<T> submit(Callable<T> runnable);
 
+    Future<T> submit(Callable<T> runnable, Callback<T> callback);
 }
